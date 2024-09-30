@@ -1,0 +1,70 @@
+
+echo '#######################################################'
+echo "########## Creating APP: ${GCP_APP_NAME}"
+echo '#######################################################'
+
+# echo $GCP_INSTANCE
+# echo $GCP_PROJECT_NAME
+# echo ' '
+# gcloud sql instances delete $GCP_INSTANCE \
+# --project=$GCP_PROJECT_NAME
+
+## create Instance
+echo ' '
+echo 'Creating INSTANCE'
+echo GCP_PROJECT: ${GCP_PROJECT}
+echo GCP_APP_NAME: ${GCP_APP_NAME}
+echo GCP_INSTANCE: ${GCP_INSTANCE}
+echo GCP_DB_NAME: ${GCP_DB_NAME}
+echo GCP_DB_VERSION: ${GCP_DB_VERSION}
+echo GCP_REGION: ${GCP_REGION}
+echo ' '
+gcloud sql instances create ${GCP_INSTANCE} \
+    --project ${GCP_PROJECT} \
+    --database-version ${GCP_DB_VERSION} \
+    --tier db-f1-micro \
+    --region ${GCP_REGION} 
+
+
+# set password on 'postgress' user
+echo 'set password for POSTGRES user'
+echo ${GCP_INSTANCE}
+echo ' '
+gcloud sql users set-password postgres \
+--instance=${GCP_INSTANCE} \
+--password=postgres
+
+
+## create DB
+# gcloud sql databases delete $GCP_DB_NAME \
+#    --instance $GCP_INSTANCE
+echo 'create DB'
+echo ${GCP_DB_NAME}
+echo ${GCP_INSTANCE}
+echo ' '
+gcloud sql databases create ${GCP_DB_NAME} \
+    --instance ${GCP_INSTANCE}
+
+## create USER
+
+# cat /dev/urandom | LC_ALL=C tr -dc '[:alpha:]'| fold -w 50 | head -n1 > dbpassword
+
+echo 'create USER'
+echo ${GCP_DB_USER}
+echo ${GCP_INSTANCE}
+echo ' '
+gcloud sql users create ${GCP_DB_USER} \
+   --instance=${GCP_INSTANCE} --password=$(cat dbpassword)
+
+
+## Set up a Cloud Storage bucket
+echo ' '
+echo BUCKET: ${GCP_BUCKET}
+echo BUCKET: ${GCP_REGION}
+export bucket_path='gs://'${GCP_BUCKET}
+echo $bucket_path
+gsutil mb -l ${GCP_REGION} ${bucket_path}
+
+## [bucket permissions]()
+gsutil iam ch allUsers:objectViewer $bucket_path
+
