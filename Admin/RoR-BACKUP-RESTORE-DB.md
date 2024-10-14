@@ -265,10 +265,10 @@ cd ..
 
 
 <!-- export BK_DB_NAME=rails_pdf_ninja_0_development -->
-export BK_DB_NAME=heidless_demo_app_0_development
+export BK_DB_NAME=airbnb_app_1_development
 echo BK_DB_NAME: ${BK_DB_NAME}
 
-export BK_COMMENT='-0-pre-users-0-'
+export BK_COMMENT='-0-PRE-GEO-0-'
 echo BK_COMMENT: ${BK_COMMENT}
 
 export BK_TIMESTAMP=`date +%s`
@@ -291,8 +291,8 @@ pg_dump -U heidless ${BK_DB_NAME} > ${BK_FILE}
 # reset DB
 psql
 --
-DROP DATABASE rails_pdf_ninja_0_development;
-DROP DATABASE rails_pdf_ninja_0_test;
+DROP DATABASE airbnb_app_1_development;
+DROP DATABASE airbnb_app_1_test;
 
 --
 
@@ -300,10 +300,9 @@ rails db:create
 
 ###################################
 # import backup
-export BK_DB_NAME=rails_pdf_ninja_0_development
-<!-- export BK_DB_NAME=active_storage_tst_2_development -->
+export BK_DB_NAME=${BK_DB_NAME}
 
-export BK_FILE=rails_pdf_ninja_0_development--8-PDF-Image-Upload-Local-Storage--1721295085.pgsql
+export BK_FILE=airbnb_app_1_development--0-PRE-GEO-0--1728568846.pgsql
 
 echo ' '
 echo BK_DB_NAME: ${BK_DB_NAME}

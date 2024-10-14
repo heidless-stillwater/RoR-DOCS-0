@@ -1,5 +1,8 @@
 
-
+# login validation
+- Implement LIVE/dynamoic validation of data entry. i.e valid email address
+- ## [Part 9: relevant tutorial section](https://www.youtube.com/watch?v=SPuY526muQ4&list=PLCawOXF4xaJK1_-KVgXyREULRVy_W_1pe&index=8)
+- ## [REF: How to Validate Forms with Bootstrap 5](https://designmodo.com/validate-forms-bootstrap/)
 
 # CSS/SCSS
 - ## [implement custom.scss](https://huemint.com/bootstrap-basic/)
@@ -10,6 +13,11 @@
 ```
 
 ```
+# flex (css)
+- ## reduce the size of each item on display to achieve 5 items per row on normal screen
+  - ## gallery 2 remain responsive
+  - ## study flex. possibly: [CSS Flexbox Layout Guide](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
+
 # modals
 ## [study bootstrap modals](https://getbootstrap.com/docs/4.2/components/modal/)
 ```

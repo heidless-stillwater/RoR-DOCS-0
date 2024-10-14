@@ -14,29 +14,97 @@
 - ### [devise](#devise-gem)
 - ### [minimal app](#minimalapp)
 
+
+### git
+```
+git checkout main
+
+export H_BRANCH='14-geo-0'
+echo ${H_BRANCH}
+git branch -d ${H_BRANCH}           # Delete local
+git push -d origin ${H_BRANCH}      # Delete remote
+
+## view commit history
+git log
+--
+commit d6d2da4b4fdc2eab1da942f2f64a2c6b053a2d5a (HEAD -> 3-modal-4, origin/DEVELOP-0, DEVELOP-0)
+
+--
+
+## Reverting Working Copy to Most Recent Commit
+## To revert to the previous commit, ignoring any changes:
+
+git reset --hard HEAD
+
+git reset --hard d6d2da4b4fdc2eab1da942f2f64a2c6b053a2d5a
+
+# where HEAD is the last commit in your current branch
+
+```
+
 ## CHEATSHEET
 ### env     
 ```
-rvm use --default 3.2.2
-/bin/zsh --login
+rvm use --default 3.3.5
+
+/bin/zsh --login && rvm use --default 3.3.5
+
+gem install rails -v 7.2.1
 
 rails routes
-
 rails routes -c api/users
+rails routes -c api/users_by_email
 
-# to fix deprecation warnings upograde sass
+# to fix deprecation warnings upgrade sass
 #npm i sass@1.77.6 --save-exact
 #rails _7.2.1_ new airbnb-app-2 -T -d postgresql -j esbuild --css bootstrap
 
-rails _7.2.1_ new airbnb-app-3 -d postgresql -css bootstrap
+#rails _7.2.1_ new airbnb-bootstrap-0 -d postgresql -j esbuild --css bootstrap
+
+rails _7.2.1_ new partials-test-0 -d postgresql
+
+gem uninstall gem-wrappers
 
 
-rails _6.1.7.8_ new test-app-2 -d postgresql
+#rails _6.1.7.8_ new test-app-2 -d postgresql
 
-bundle add ostruct
+###########
+# [bootstrap](https://getbootstrap.com/docs/5.0/getting-started/introduction/)
+###########
 
-rails g controller Pages index
+rails g controller Home index
 
+rails g model property name:string headline:string description:text city:string state:string country:string
+
+rails g migration add_address_columns_to_properties address_1:string address_2:string
+
+rails g migration add_latitude_and_longitude_to_properties latitude:float longitude:float
+--
+add_index :table, [:latitude, :longitude]
+--
+rails db:migrate db:test:prepare
+
+psql
+--
+ALTER TABLE properties
+DROP COLUMN longitude;
+
+--
+    return "301 Park Ave, New York, NY 10022, United States"
+    return "City Centre, First Avenue, Lebuh Bandar Utama, Bandar Utama, 47800 Petaling Jaya, Selangor, Malaysia"
+    # return "Aldwych, London WC2B 4DD"
+```
+
+### [geocoder config](https://github.com/alexreisner/geocoder)
+- ### generate a config file with the http_header set
+```
+rails generate geocoder:config
+--
+Geocoder.configure(http_headers: { "User-Agent" => "your contact info" })
+
+--
+
+Property.last.update! latitude: nil, longitude: nil
 
 ```
 
@@ -55,7 +123,29 @@ rails g controller Pages index
 
 ```
 
+### [install bootstrap](https://mixandgo.com/learn/ruby-on-rails/how-to-install-bootstrap)
+```
+bundle add cssbundling-rails
+./bin/rails css:install:bootstrap
 
+bundle add jsbundling-rails
+./bin/rails javascript:install:esbuild
+
+
+
+```
+
+### [axios :: JavaScript libaries, Vue.js, Ruby on Rails and importmaps](https://jasonchee.me/writings/javascript-libraries-vue-and-importmaps/)
+```
+vi config/importmap.rb
+--
+pin "axios", to: "https://cdn.skypack.dev/pin/axios@v1.6.7-CtiTWk1RHZKnFCXj0sDG/mode=imports,min/optimized/axios.js", preload: true
+
+
+--
+
+
+```
 
 ### [mdb](https://mdbootstrap.com/docs/standard/navigation/navbar/examples-and-customization/)
 ```
@@ -81,8 +171,10 @@ rspec   # run ALL spec files
 rspec spec --format documentation     # run ALL tests with DETAIL of both SUCCESS & FAILURE
 
 rspec spec/models/post_spec.rb --format documentation 
-rspec spec/requests/users_spec.rb --format documentation 
+rspec spec/models/property_spec.rb --format documentation 
 rspec spec/requests/home_spec.rb --format documentation 
+rspec spec/requests/api/users_spec.rb --format documentation 
+
 rspec spec/requests/api/users_by_email_spec.rb --format documentation 
 
 rspec spec/views/posts/index.html.erb_spec.rb --format documentation 
@@ -92,31 +184,28 @@ rspec spec/card_spec.rb   #  isolate SPECIFIC test
 ./spec/card_spec.rb:3   # run spec file from example with LINE NUMBER = 3
 
 ```
-### git
+
+### TROUBLESHOOT
 ```
-git checkout main
+#
+# PROBLEM
+#
+rake aborted!
+Step #0 - "build image": SassC::SyntaxError: Error: Invalid CSS after "}": expected 1 selector or at-rule, was '<link rel="styleshe' (SassC::SyntaxError)
+Step #0 - "build image":         on line 42:2 of stdin
+Step #0 - "build image": >> }
 
-export H_BRANCH='DEPLOY-0'
-echo ${H_BRANCH}
-git branch -d ${H_BRANCH}               # Delete local
-git push -d origin ${H_BRANCH}   # Delete remote
-
-## view commit history
-git log
+#
+# SOLUTION
+#
+vi config/application.rb
 --
-commit d6d2da4b4fdc2eab1da942f2f64a2c6b053a2d5a (HEAD -> 3-modal-4, origin/DEVELOP-0, DEVELOP-0)
+config.assets.css_compressor = nil
 
 --
-
-## Reverting Working Copy to Most Recent Commit
-## To revert to the previous commit, ignoring any changes:
-## git reset --hard HEAD
-
-git reset --hard d6d2da4b4fdc2eab1da942f2f64a2c6b053a2d5a
-
-# where HEAD is the last commit in your current branch
 
 ```
+
 ---
 
 ## AppFramework

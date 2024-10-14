@@ -60,7 +60,7 @@ gcloud sql users create ${GCP_DB_USER} \
 ## Set up a Cloud Storage bucket
 echo ' '
 echo BUCKET: ${GCP_BUCKET}
-echo BUCKET: ${GCP_REGION}
+echo REGION: ${GCP_REGION}
 export bucket_path='gs://'${GCP_BUCKET}
 echo $bucket_path
 gsutil mb -l ${GCP_REGION} ${bucket_path}
