@@ -1,4 +1,17 @@
 
+# rating
+- align test with hero star image
+
+# property images
+- currently a SINGLE image per property
+- upgrade to all MULTIPLE images property
+  - gallery effect to scroll thre images (left/right)
+  
+# geo calcs
+- Fully implement location & distajce functionlity
+- 'current' location current hard-wired to 'london'
+- guide - Chap 15 - [Part 15 - Calculate the distance user not logged in](https://www.youtube.com/watch?v=77gjbsVt-4k&list=PLCawOXF4xaJK1_-KVgXyREULRVy_W_1pe&inssdex=15)
+
 # login validation
 - Implement LIVE/dynamoic validation of data entry. i.e valid email address
 - ## [Part 9: relevant tutorial section](https://www.youtube.com/watch?v=SPuY526muQ4&list=PLCawOXF4xaJK1_-KVgXyREULRVy_W_1pe&index=8)

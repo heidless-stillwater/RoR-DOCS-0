@@ -25,7 +25,9 @@ git push -f origin main
 
 
 
-
+#############################################
+# CONFIGURE BACKUP ENV
+#
 echo '######################'
 echo 'set ENV'
 source config/.env-vars
@@ -38,6 +40,7 @@ source ../../config/.env-vars
 ## set SERVICE ACCOUNT Permissons
 ```
 --
+
 # set permissoons on INSTANCE service account
 echo ' '
 echo '#################################'
@@ -47,64 +50,8 @@ export SQL_SVC_ACC=`gcloud sql instances describe ${GCP_INSTANCE} | grep service
 echo SQL_SVC_ACC: ${SQL_SVC_ACC}
 
 --
-ALPHA-BLOG:
-serviceAccountEmailAddress: p84348039033-ept8q1@gcp-sa-cloud-sql.iam.gserviceaccount.com
 
-FIN-TRACK:
-serviceAccountEmailAddress: p32685880208-q2qf3l@gcp-sa-cloud-sql.iam.gserviceaccount.com
-
-CAT-PHOTO:
-serviceAccountEmailAddress: p32685880208-8vpfud@gcp-sa-cloud-sql.iam.gserviceaccount.com
-
-PHOTO-APP:
-SQL_SVC_ACC: serviceAccountEmailAddress: p84348039033-dqu1x6@gcp-sa-cloud-sql.iam.gserviceaccount.com
-
-RAILS-V6-1-7-BASE:
-SQL_SVC_ACC: serviceAccountEmailAddress: p84348039033-fc24g7@gcp-sa-cloud-sql.iam.gserviceaccount.com
-
-RAILS_TEST_DEPLOY:
-SQL_SVC_ACC: serviceAccountEmailAddress: p32685880208-a7kwje@gcp-sa-cloud-sql.iam.gserviceaccount.com
-
-ACTIVE_STORAGE-TST-2:
-SQL_SVC_ACC: serviceAccountEmailAddress: p32685880208-tpwqyw@gcp-sa-cloud-sql.iam.gserviceaccount.com
-
-BULLET_TRAIN:
-SQL_SVC_ACC: serviceAccountEmailAddress: p84348039033-4sab4e@gcp-sa-cloud-sql.iam.gserviceaccount.com
-
-RAILS_PDF_NINJA:
-SQL_SVC_ACC: serviceAccountEmailAddress: p84348039033-ov2wxu@gcp-sa-cloud-sql.iam.gserviceaccount.com
---
-#############################
-# assing Svc Account
-#export DB_SVC_ACCOUNT=backups-svc-account@heidless-ror-5.iam.gserviceaccount.com
-
-# fin-track
-export DB_SVC_ACCOUNT=p84348039033-szuu0p@gcp-sa-cloud-sql.iam.gserviceaccount.com
-
-# alpha-blog
-export DB_SVC_ACCOUNT=p84348039033-ept8q1@gcp-sa-cloud-sql.iam.gserviceaccount.com
-
-# photo-app
-export DB_SVC_ACCOUNT=p84348039033-dqu1x6@gcp-sa-cloud-sql.iam.gserviceaccount.com
-echo ${DB_SVC_ACCOUNT}
-
-# cat-photo
-export DB_SVC_ACCOUNT=p32685880208-8vpfud@gcp-sa-cloud-sql.iam.gserviceaccount.com
-
-# RAILS-V6-1-7-BASE:
-export DB_SVC_ACCOUNT=p84348039033-fc24g7@gcp-sa-cloud-sql.iam.gserviceaccount.com
-
-# RAILS_TEST_DEPLOY:
-export DB_SVC_ACCOUNT=p32685880208-a7kwje@gcp-sa-cloud-sql.iam.gserviceaccount.com
-
-# ACTIVE_STORAGE-TST-2:
-export DB_SVC_ACCOUNT=p32685880208-tpwqyw@gcp-sa-cloud-sql.iam.gserviceaccount.com
-
-# BULLET_TRAIN:
-export DB_SVC_ACCOUNT=p84348039033-4sab4e@gcp-sa-cloud-sql.iam.gserviceaccount.com
-
-# RAILS_PDF_NINJA:
-export DB_SVC_ACCOUNT=p84348039033-ov2wxu@gcp-sa-cloud-sql.iam.gserviceaccount.com
+export DB_SVC_ACCOUNT=p590618864324-psikp0@gcp-sa-cloud-sql.iam.gserviceaccount.com
 
 # set PERMISSION on Svc Account
 echo DB_SVC_ACCOUNT: ${DB_SVC_ACCOUNT}
@@ -112,17 +59,8 @@ echo GCP_BUCKET: ${GCP_BUCKET}
 
 echo ' '
 echo 'objectAdmin'
-gsutil iam ch serviceAccount:${DB_SVC_ACCOUNT}:objectAdmin gs://${GCP_BUCKET}
 echo gsutil iam ch serviceAccount:${DB_SVC_ACCOUNT}:objectAdmin gs://${GCP_BUCKET}
-
-<!-- 
-echo ' '
-echo 'legacyBucketOwner'
-echo gsutil iam ch serviceAccount:${DB_SVC_ACCOUNT}:legacyBucketOwner gs://${GCP_BUCKET}
-gsutil iam ch serviceAccount:${DB_SVC_ACCOUNT}:legacyBucketOwner gs://${GCP_BUCKET}
- -->
-
-```
+gsutil iam ch serviceAccount:${DB_SVC_ACCOUNT}:objectAdmin gs://${GCP_BUCKET}
 
 ```
 
@@ -130,7 +68,7 @@ gsutil iam ch serviceAccount:${DB_SVC_ACCOUNT}:legacyBucketOwner gs://${GCP_BUCK
 # Take Backup
 #
 timestamp=`date +%s`
-MSG=2nd-DRAFT
+MSG=PRD_TEST
 
 echo PROJECT: $GCP_PROJECT
 echo INSTANCE: $GCP_INSTANCE
@@ -141,7 +79,7 @@ echo BUCKET: $GCP_BUCKET
 export BK_PREFIX=${GCP_BACKUP_PREFIX}
 echo BK_PREFIX: ${BK_PREFIX}
 
-export BK_COMMENT='-BACKUP-TEST-'
+export BK_COMMENT='-PRD-MILESTONE-0-'
 echo COMMENT: $BK_COMMENT
 
 export BK_TIMESTAMP=`date +%s`
@@ -168,25 +106,38 @@ gcloud sql export sql ${GCP_INSTANCE} gs://${GCP_BUCKET}/backups/${GCP_FILE}    
 --offload
 
 
-#################
-# DOWNLOAD BACKUPls
+#######################################
+# file OPERATIONS
+#
+# DOWNLOAD BACKUP
 # cd <BACKUP DIR>
+
+
+export GCP_FILE=airbnb-app-1--PRD-MILESTONE-0--1729544264.gz
 
 echo GCP_BUCKET: $GCP_BUCKET
 echo GCP_FILE: $GCP_FILE
 gcloud storage cp gs://${GCP_BUCKET}/backups/${GCP_FILE} .
 
-
-###############
 # UPLOAD BACKUP
 #
 source ../../config/.env-vars
 
-GCP_FILE=fin-track-0-instance-0-fin-track-0-db-0-upload-inage-test-0-1719253838.gz
+export LOCAL_BACKUP=airbnb_app_1_development--DEV-MILESTONE-0--1729543487
+
+mv ${LOCAL_BACKUP}.pgsql ${LOCAL_BACKUP}
+gzip ${LOCAL_BACKUP}
+
+export GCP_FILE=${LOCAL_BACKUP}.gz
+
+#export GCP_FILE=airbnb_app_1_development--DEV-MILESTONE-0--1729543487.pgsql
 
 echo GCP_BUCKET: ${GCP_BUCKET}
 echo GCP_FILE: ${GCP_FILE}
+
+echo gcloud storage cp ${GCP_FILE} gs://${GCP_BUCKET}/backups/${GCP_FILE}
 gcloud storage cp ${GCP_FILE} gs://${GCP_BUCKET}/backups/${GCP_FILE}
+
 
 
 ##############
@@ -211,16 +162,17 @@ gcloud sql databases create $GCP_DB_NAME \
 echo GCP_INSTANCE: ${GCP_INSTANCE}
 echo GCP_BUCKET: ${GCP_BUCKET}
 echo GCP_FILE: ${GCP_FILE}
+
 echo ' '
 gcloud sql import sql ${GCP_INSTANCE} gs://${GCP_BUCKET}/backups/${GCP_FILE} \
 --database=${GCP_DB_NAME}
 
 ```
 
-##################################################################################
-##################################################################################
-
-# DOWNLOAD ALL IMAGES
+################
+# static FILES
+#
+# IMAGES
 echo GCP_MEDIA_DIR: ${GCP_MEDIA_DIR}
 echo " "
 gsutil cp -r ${GCP_MEDIA_DIR} .
@@ -258,24 +210,20 @@ cd ..
 
 
 
-##################################################################################
-##################################################################################
+###########################
+# LOCAL env
+#
+
 # local DB backup & install
-##################################################################################
 
-
-<!-- export BK_DB_NAME=rails_pdf_ninja_0_development -->
 export BK_DB_NAME=airbnb_app_1_development
 echo BK_DB_NAME: ${BK_DB_NAME}
 
-export BK_COMMENT='-0-PRE-GEO-0-'
+export BK_COMMENT='-pre-21-ratings-'
 echo BK_COMMENT: ${BK_COMMENT}
 
 export BK_TIMESTAMP=`date +%s`
 echo TIMESTAMP: ${BK_TIMESTAMP}
-
-export BK_FILE=${BK_DB_NAME}-${BK_COMMENT}-${BK_TIMESTAMP}.pgsql
-echo BK_FILE: ${BK_FILE}
 
 export BK_FILE=${BK_DB_NAME}-${BK_COMMENT}-${BK_TIMESTAMP}.pgsql
 echo BK_FILE: ${BK_FILE}
@@ -285,6 +233,12 @@ echo ' '
 # dump local DB
 pg_dump -U heidless ${BK_DB_NAME} > ${BK_FILE}
 
+
+# upload backup
+export GCP_FILE=airbnb_app_1_development--0-FROM-LOCAL--1729264233.pgsql
+echo GCP_BUCKET: ${GCP_BUCKET}
+echo GCP_FILE: ${GCP_FILE}
+gcloud storage cp ${GCP_FILE} gs://${GCP_BUCKET}/backups/${GCP_FILE}
 
 
 ###################################
@@ -297,12 +251,19 @@ DROP DATABASE airbnb_app_1_test;
 --
 
 rails db:create
+rails db:migrate
 
-###################################
-# import backup
+################
+# IMPORT DB file
+#
+# decompress backup file
+#export TAR_FILE=airbnb-app-1--DEPLOY--1729330618.gz
+#gzip -d ${TAR_FILE}
+#mv airbnb-app-1--DEPLOY--1729330618 airbnb-app-1--DEPLOY--1729330618.psql
+
+# import backup - FROM LOCAL
 export BK_DB_NAME=${BK_DB_NAME}
-
-export BK_FILE=airbnb_app_1_development--0-PRE-GEO-0--1728568846.pgsql
+export BK_FILE=airbnb_app_1_development--DEV-MILESTONE-0--1729543487.pgsql
 
 echo ' '
 echo BK_DB_NAME: ${BK_DB_NAME}
@@ -312,8 +273,5 @@ echo ' '
 psql -U heidless ${BK_DB_NAME} < ${BK_FILE}
 
 --
-
-
-
 
 

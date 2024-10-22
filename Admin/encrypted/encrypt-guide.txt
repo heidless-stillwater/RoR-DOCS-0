@@ -27,7 +27,6 @@ arjuna11
 # encrypt
 #
 cd Admin/encrypted
-export FILE_NAME=RoR-INSTALL-DEPLOY.md
 
 #export FILE_NAME=RoR-APP-INSTALL-blog.md
 export FILE_NAME=RoR-INSTALL-DEPLOY.md
