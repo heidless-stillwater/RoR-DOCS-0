@@ -29,7 +29,9 @@ arjuna11
 cd Admin/encrypted
 
 #export FILE_NAME=RoR-APP-INSTALL-blog.md
+
 export FILE_NAME=RoR-INSTALL-DEPLOY.md
+echo FILE_NAME: ${FILE_NAME}
 
 gpg --output ${FILE_NAME}.gpg --encrypt --recipient rob.lockhart@yahoo.co.uk ${FILE_NAME}
 

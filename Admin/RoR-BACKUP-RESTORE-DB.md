@@ -23,9 +23,6 @@ git push -f origin main
 
 #############################
 
-
-
-
 echo '######################'
 echo 'set ENV'
 source config/.env-vars
@@ -46,66 +43,10 @@ echo GCP_INSTANCE: ${GCP_INSTANCE}
 export SQL_SVC_ACC=`gcloud sql instances describe ${GCP_INSTANCE} | grep serviceAccountEmailAddress`
 echo SQL_SVC_ACC: ${SQL_SVC_ACC}
 
---
-ALPHA-BLOG:
-serviceAccountEmailAddress: p84348039033-ept8q1@gcp-sa-cloud-sql.iam.gserviceaccount.com
+export DB_SVC_ACCOUNT=`echo ${SQL_SVC_ACC}|sed 's/.* //g'`
+echo DB_SVC_ACCOUNT: ${DB_SVC_ACCOUNT}
 
-FIN-TRACK:
-serviceAccountEmailAddress: p32685880208-q2qf3l@gcp-sa-cloud-sql.iam.gserviceaccount.com
-
-CAT-PHOTO:
-serviceAccountEmailAddress: p32685880208-8vpfud@gcp-sa-cloud-sql.iam.gserviceaccount.com
-
-PHOTO-APP:
-SQL_SVC_ACC: serviceAccountEmailAddress: p84348039033-dqu1x6@gcp-sa-cloud-sql.iam.gserviceaccount.com
-
-RAILS-V6-1-7-BASE:
-SQL_SVC_ACC: serviceAccountEmailAddress: p84348039033-fc24g7@gcp-sa-cloud-sql.iam.gserviceaccount.com
-
-RAILS_TEST_DEPLOY:
-SQL_SVC_ACC: serviceAccountEmailAddress: p32685880208-a7kwje@gcp-sa-cloud-sql.iam.gserviceaccount.com
-
-ACTIVE_STORAGE-TST-2:
-SQL_SVC_ACC: serviceAccountEmailAddress: p32685880208-tpwqyw@gcp-sa-cloud-sql.iam.gserviceaccount.com
-
-BULLET_TRAIN:
-SQL_SVC_ACC: serviceAccountEmailAddress: p84348039033-4sab4e@gcp-sa-cloud-sql.iam.gserviceaccount.com
-
-RAILS_PDF_NINJA:
-SQL_SVC_ACC: serviceAccountEmailAddress: p84348039033-ov2wxu@gcp-sa-cloud-sql.iam.gserviceaccount.com
---
-#############################
-# assing Svc Account
-#export DB_SVC_ACCOUNT=backups-svc-account@heidless-ror-5.iam.gserviceaccount.com
-
-# fin-track
-export DB_SVC_ACCOUNT=p84348039033-szuu0p@gcp-sa-cloud-sql.iam.gserviceaccount.com
-
-# alpha-blog
-export DB_SVC_ACCOUNT=p84348039033-ept8q1@gcp-sa-cloud-sql.iam.gserviceaccount.com
-
-# photo-app
-export DB_SVC_ACCOUNT=p84348039033-dqu1x6@gcp-sa-cloud-sql.iam.gserviceaccount.com
-echo ${DB_SVC_ACCOUNT}
-
-# cat-photo
-export DB_SVC_ACCOUNT=p32685880208-8vpfud@gcp-sa-cloud-sql.iam.gserviceaccount.com
-
-# RAILS-V6-1-7-BASE:
-export DB_SVC_ACCOUNT=p84348039033-fc24g7@gcp-sa-cloud-sql.iam.gserviceaccount.com
-
-# RAILS_TEST_DEPLOY:
-export DB_SVC_ACCOUNT=p32685880208-a7kwje@gcp-sa-cloud-sql.iam.gserviceaccount.com
-
-# ACTIVE_STORAGE-TST-2:
-export DB_SVC_ACCOUNT=p32685880208-tpwqyw@gcp-sa-cloud-sql.iam.gserviceaccount.com
-
-# BULLET_TRAIN:
-export DB_SVC_ACCOUNT=p84348039033-4sab4e@gcp-sa-cloud-sql.iam.gserviceaccount.com
-
-# RAILS_PDF_NINJA:
-export DB_SVC_ACCOUNT=p84348039033-ov2wxu@gcp-sa-cloud-sql.iam.gserviceaccount.com
-
+###############################
 # set PERMISSION on Svc Account
 echo DB_SVC_ACCOUNT: ${DB_SVC_ACCOUNT}
 echo GCP_BUCKET: ${GCP_BUCKET}
@@ -138,10 +79,10 @@ echo DB: $GCP_DB_NAME
 echo USER: $GCP_DB_USER
 echo BUCKET: $GCP_BUCKET
 
-export BK_PREFIX=${GCP_BACKUP_PREFIX}
+export BK_PREFIX=${GCP_INSTANCE}
 echo BK_PREFIX: ${BK_PREFIX}
 
-export BK_COMMENT='-BACKUP-TEST-'
+export BK_COMMENT='-LIVE-base-INSTALL-0-'
 echo COMMENT: $BK_COMMENT
 
 export BK_TIMESTAMP=`date +%s`
@@ -176,24 +117,15 @@ echo GCP_BUCKET: $GCP_BUCKET
 echo GCP_FILE: $GCP_FILE
 gcloud storage cp gs://${GCP_BUCKET}/backups/${GCP_FILE} .
 
-
-###############
-# UPLOAD BACKUP
-#
-source ../../config/.env-vars
-
-GCP_FILE=fin-track-0-instance-0-fin-track-0-db-0-upload-inage-test-0-1719253838.gz
-
-echo GCP_BUCKET: ${GCP_BUCKET}
-echo GCP_FILE: ${GCP_FILE}
-gcloud storage cp ${GCP_FILE} gs://${GCP_BUCKET}/backups/${GCP_FILE}
-
+...
 
 ##############
 # RE-CREATE DB
 # pq: database "photo-app-0-db-0" is being accessed by other users
 # CLOSE ALL TABS ACCESSING APP
 #
+source config/.env-vars
+echo ' '
 echo 're-create DB'
 echo GCP_DB_NAME: $GCP_DB_NAME
 echo GCP_INSTANCE: $GCP_INSTANCE
@@ -208,6 +140,7 @@ gcloud sql databases create $GCP_DB_NAME \
 ################
 # RESTORE BACKUP
 #
+echo ' '
 echo GCP_INSTANCE: ${GCP_INSTANCE}
 echo GCP_BUCKET: ${GCP_BUCKET}
 echo GCP_FILE: ${GCP_FILE}
@@ -265,17 +198,16 @@ cd ..
 
 
 <!-- export BK_DB_NAME=rails_pdf_ninja_0_development -->
-export BK_DB_NAME=airbnb_app_1_development
+<!-- export BK_DB_NAME=airbnb_app_1_development -->
+
+export BK_DB_NAME=alpha_blog_development
 echo BK_DB_NAME: ${BK_DB_NAME}
 
-export BK_COMMENT='-0-PRE-GEO-0-'
+export BK_COMMENT='-0-DATA-1-'
 echo BK_COMMENT: ${BK_COMMENT}
 
 export BK_TIMESTAMP=`date +%s`
 echo TIMESTAMP: ${BK_TIMESTAMP}
-
-export BK_FILE=${BK_DB_NAME}-${BK_COMMENT}-${BK_TIMESTAMP}.pgsql
-echo BK_FILE: ${BK_FILE}
 
 export BK_FILE=${BK_DB_NAME}-${BK_COMMENT}-${BK_TIMESTAMP}.pgsql
 echo BK_FILE: ${BK_FILE}

@@ -4,6 +4,7 @@
 ## [RSpec: AirBNB Clone: How to RSpec - Fairly comprehensive starter guide to RSpec](https://www.youtube.com/watch?v=AAqPc0j_2bg&t=121s)
 
 ### CONTENTS
+- ### [custom domain](#custom-domain-link)
 - ### [git](#git-link)
 - ### [rspec](#rspec-link)
 - ### [cheatsheet](#cheatsheet-link)
@@ -18,6 +19,9 @@
 - ### [axios](#axios-link)
 - ### [mdb](#mdb-link)
 - ### [factory-bot](#factory-bot-link)
+- ### [image-overlays](#image-overlays-link)
+- ### [image-overlays-css](#image-overlay-css-link)
+
 
 - ### [TROUBLESHOOT](#troubleshoot-link)
 - ### [app-framework](#app-framework-link)
@@ -26,7 +30,24 @@
 - ### [webpacker](#webpack)
 - ### [tailwindcss](#tailwindcss-link)
 
----
+
+# custom-domain-link
+```
+
+gcloud domains list-user-verified
+
+gcloud domains verify heidless.co.uk
+
+#gcloud beta run domain-mappings delete --domain heidless.co.uk
+#gcloud beta run domain-mappings delete --domain fundingcloud.co.uk
+gcloud beta run domain-mappings delete --domain fundingcloud.com
+
+gcloud beta run domain-mappings create --service airbnb-app-1-svc --domain heidless.co.uk
+gcloud beta run domain-mappings create --service rails-v6-1-7-base-0-svc --domain fundingcloud.co.uk
+gcloud beta run domain-mappings create --service rails-v6-1-7-base-0-svc --domain fundingcloud.com
+
+```
+
 # git-link
 ```
 git checkout main
@@ -178,7 +199,77 @@ user = User.last
 profile = user.profile
 profile.update address_1: "99 Bd Haussmann, 75008 Paris, France", city: "Paris", state: "Île-de-France", country: "France", zip_code: "75008"
 
+########################
+# Property.default_image
+#
+rails g migration add_defaultImage_to_properties defaultImage:string
+
+
 ```
+
+# reviews-link
+### [Active Record Associations](https://guides.rubyonrails.org/association_basics.html)
+```
+rails g model review 
+vi <MIGRATION>
+--
+  def change
+    create_table :reviews do |t|
+      t.string  :title
+      t.text    :body
+      t.integer :rating
+      t.bigint  :reviewable_id
+      t.string  :reviewable_type
+      t.timestamps
+    end
+
+    add_index :reviews, [:reviewable_type, :reviewable_id]
+
+  end
+
+--
+rails db:migrate db:test:prepare
+
+# reviews_count
+rails g migration add_reviews_count_to_properties reviews_count:integer
+vi review.rb
+--
+  belongs_to :reviewable, polymorphic: true, counter_cache: true 
+--
+Property.find_each { |property| Property.reset_counters(property.id, :reviews) }
+Property.pluck(:reviews_count)
+
+# average_rating
+rails g migration add_average_rating_to_properties average_rating:decimal
+vi review.rb
+--
+  after_commit :update_average_rating, on: { :create, :update }
+  def update_average_rating
+    reviewable.update!( average_rating: reviewable.reviews.average(:rating))
+  end
+--
+
+rails c
+--
+Review.find_each { |review| review.save }
+Property.first.average_rating.to_f.round(2)
+--
+
+
+```
+
+# favorites
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+  <path d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z" />
+</svg>
+
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+</svg>
+
+
+
 
 # monetize-link
 ```
@@ -218,31 +309,6 @@ rails g migration add_images_to_properties images:attachments
 ### [Active Storage Basics](https://edgeguides.rubyonrails.org/active_storage_overview.html)
 ```
 tester
-
-```
-
-# reviews-link
-### [Active Record Associations](https://guides.rubyonrails.org/association_basics.html)
-```
-rails g model review 
-vi <MIGRATION>
---
-  def change
-    create_table :reviews do |t|
-      t.string  :title
-      t.text    :body
-      t.integer :rating
-      t.bigint  :reviewable_id
-      t.string  :reviewable_type
-      t.timestamps
-    end
-
-    add_index :reviews, [:reviewable_type, :reviewable_id]
-
-  end
-
---
-rails db:migrate db:test:prepare
 
 ```
 
@@ -362,6 +428,40 @@ npm install
 bundle add factory_bot
 
 ```
+
+
+# rmagick-link
+### [rmagick: git](https://github.com/rmagick/rmagick)
+### [rmagick: tutorial](https://rmagick.github.io/usage.html)
+### [rmagick: composite layers](https://rmagick.github.io/composite_layers.rb.html)
+```
+# install
+sudo apt-get install libmagickwand-dev
+
+bundle add rmagick
+
+bundle install
+
+# sandbox
+ruby rmagick-composite-layers-0.rb
+
+```
+
+# image-overlay-css-link
+### [CSS image overlay](https://imagekit.io/blog/css-image-overlay/)
+```
+
+
+```
+
+
+# image-overlays-link
+### [Image overlays with Rmagick and Rails](https://mikewilliamson.wordpress.com/2010/05/18/image-overlays-with-rmagick-and-rails/)
+```
+
+```
+
+
 
 # troubleshoot-link
 ```

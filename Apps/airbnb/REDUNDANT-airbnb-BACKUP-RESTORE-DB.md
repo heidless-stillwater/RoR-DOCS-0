@@ -79,7 +79,7 @@ echo BUCKET: $GCP_BUCKET
 export BK_PREFIX=${GCP_BACKUP_PREFIX}
 echo BK_PREFIX: ${BK_PREFIX}
 
-export BK_COMMENT='-PRD-MILESTONE-0-'
+export BK_COMMENT='-live-PRD-DATA-1-'
 echo COMMENT: $BK_COMMENT
 
 export BK_TIMESTAMP=`date +%s`
@@ -105,15 +105,13 @@ gcloud sql export sql ${GCP_INSTANCE} gs://${GCP_BUCKET}/backups/${GCP_FILE}    
 --database=${GCP_DB_NAME}	 \
 --offload
 
-
 #######################################
 # file OPERATIONS
 #
 # DOWNLOAD BACKUP
 # cd <BACKUP DIR>
 
-
-export GCP_FILE=airbnb-app-1--PRD-MILESTONE-0--1729544264.gz
+#export GCP_FILE=airbnb-app-1--PRD-MILESTONE-0--1729544264.gz
 
 echo GCP_BUCKET: $GCP_BUCKET
 echo GCP_FILE: $GCP_FILE
@@ -214,12 +212,15 @@ cd ..
 # LOCAL env
 #
 
-# local DB backup & install
+export PROJ_HOME=${HOME}/projects/heidless-ror/apps/airbnb-app-2
+echo ${PROJ_HOME}/config/.env-vars
+source ${PROJ_HOME}/config/.env-vars
 
+# local DB backup & install
 export BK_DB_NAME=airbnb_app_1_development
 echo BK_DB_NAME: ${BK_DB_NAME}
 
-export BK_COMMENT='-pre-21-ratings-'
+export BK_COMMENT='-PRD-DATA-1-'
 echo BK_COMMENT: ${BK_COMMENT}
 
 export BK_TIMESTAMP=`date +%s`
