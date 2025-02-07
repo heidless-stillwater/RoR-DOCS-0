@@ -1,4 +1,8 @@
 
+sudo systemctl restart postgresql
+
+
+
 # [YOUTUBE: Let's build an Airbnb clone with Ruby on Rails - Part 1](https://www.youtube.com/watch?v=D889P37r3bc&list=PLCawOXF4xaJK1_-KVgXyREULRVy_W_1pe)
 
 ## [RSpec: AirBNB Clone: How to RSpec - Fairly comprehensive starter guide to RSpec](https://www.youtube.com/watch?v=AAqPc0j_2bg&t=121s)
@@ -107,7 +111,17 @@ group :development, :test do
   gem 'rspec-rails'
   ...
 --
+
+#rails db:create db:migrate
+
+rails db:prepare
+
 bundle install
+
+### RUN ###
+sudo systemctl restart postgresql
+
+rail s
 
 rails generate rspec:install
       create  .rspec
@@ -316,15 +330,23 @@ tester
 ### [Mapkick Gem Spotlight | Ruby On Rails 7 Tutorial](https://www.youtube.com/watch?v=hck_SWp1cVA)
 - ### [mapkick:Create beautiful JavaScript maps with one line of Ruby](https://chartkick.com/mapkick)
 ```
+# mapbox
+
+
 #############
 # CREDENTIALS
 #
 
-ACCESS:
-mapbox PWD:
+
+# mapbox
+AccountID: 
+rob.lockhart@yahoo.co.uk
+
+password:
 --
 ciyJz.&_$3k!!ip
 --
+
 access-token-0
 pk.eyJ1IjoiaGVpZGxlc3MiLCJhIjoiY20yZ2Zvc3hoMDByMzJqc2d1MWozbGJyaCJ9.dQLSI42M1Eo7wnXXzbjipA
 
