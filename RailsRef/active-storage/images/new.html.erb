@@ -1,0 +1,12 @@
+<% content_for :title, "New image" %>
+
+<div class="container"> 
+  <h1 class="display-2 text-white mb-3 text-center">New image</h1>
+
+  <%= render "form", image: @image %>
+
+  <div class="mt-5">
+    <%= link_to "Back to images", images_path , class: "btn btn-primary" %>
+  </div>
+</div>
+

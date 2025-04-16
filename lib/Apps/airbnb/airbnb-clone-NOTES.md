@@ -1,3 +1,32 @@
+# QuickRef
+```
+EDITOR='subl --wait' ./bin/rails credentials:edit
+
+# secret info
+gcp:
+  # database
+  db_password: PGnuBCSenUQHIIpXLmpQGWOtFRcKYHAPGsqcgOnwsbXYkcdsag
+  db_database: airbnb-clone-v5-db-0
+  db_username: airbnb-clone-v5-user-0
+  db_instance_host: h-pfolio-2:europe-west1:airbnb-clone-v5-instance-0
+  # storage
+  gcp_storage_access_key: AIzaSyCSTf6bSfTcaEeE6nYIsaa44EVzwhRECBo
+  gcp_storage_bucket:  h-pfolio-2-airbnb-clone-v4-bucket-0
+maps:
+  mapkick: pk.eyJ1IjoiaGVpZGxlc3MiLCJhIjoiY20yZ2Zvc3hoMDByMzJqc2d1MWozbGJyaCJ9.dQLSI42M1Eo7wnXXzbjipA
+sendgrid_mailer:
+  user_name: apikey
+  api_key_secret: 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
+  mail_sender: support@heidless.co.uk
+  domain: heidless.co.uk
+mapkick: pk.eyJ1IjoiaGVpZGxlc3MiLCJhIjoiY20yZ2Zvc3hoMDByMzJqc2d1MWozbGJyaCJ9.dQLSI42M1Eo7wnXXzbjipA
+
+
+
+```
+
+
+
 
 sudo systemctl restart postgresql
 
@@ -207,7 +236,6 @@ rails c
 new_user = User.create email: "foo_1@bar.com", password: "password"
 profile = new_user.profile
 profile.update address_1: "99 Bd Haussmann, 75008 Paris, France", city: "Paris", state: "Île-de-France", country: "France", zip_code: "75008"
-
 
 user = User.last
 profile = user.profile

@@ -1,0 +1,22 @@
+<p style="color: green"><%= notice %></p>
+
+<div class="container">
+
+  <% content_for :title, "Images" %>
+
+  <h1 class="display-2 text-white text-center">Images</h1>
+  <div id="images">
+    <% @images.each do |image| %>
+      <%= render image %>
+      <p>
+        <%= link_to "Show this image", image %>
+      </p>
+    <% end %>
+    <div class="center">
+      <%= link_to "New Image", new_image_path, class: "btn btn-success mt-5" %>
+    </div>
+
+  </div>
+</div>
+
+
