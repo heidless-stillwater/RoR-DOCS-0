@@ -1,3 +1,9 @@
+
+
+# images
+SUBMIT/DEPLOY Automatically Loads all necessary images
+
+
 # QuickRef
 ```
 EDITOR='subl --wait' ./bin/rails credentials:edit

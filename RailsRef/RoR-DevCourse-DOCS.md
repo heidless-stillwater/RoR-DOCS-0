@@ -2,6 +2,8 @@
 ## resources
 - ### [RubyOnRails](https://rubyonrails.org/)
   - ### [RoR-Guides](https://guides.rubyonrails.org/v6.1/)
+  - ### [Understanding Ruby Series' Articles](https://dev.to/baweaver/series/11177)
+    - [Understanding Ruby - Triple Equals](https://dev.to/baweaver/understanding-ruby-triple-equals-2p9c)
   - ### ActiveRecord
     - ### [Active Record Validations](https://guides.rubyonrails.org/active_record_validations.html)
     - ### [Active Record Associations](https://guides.rubyonrails.org/association_basics.html)
@@ -168,17 +170,66 @@ gem list --local  # list all installed rails versions
 
 ```
 
+################
+# INITIALISE App
+#
 ### bootstrap & postgres
 ```
 rails _7.2.2.1_ new rails-boostrap-exemplar -j esbuild --css bootstrap --database=postgresql
 
-rails _7.2.2.1_ new heidless_multi_image -j esbuild --css bootstrap --database=postgresql
+rails _7.2.2.1_ new gemeni-git-test -j esbuild --css bootstrap --database=postgresql
 
 rails _7.2.2.1_ new video_api  --api --database=postgresql
 
 # rails db:drop 
 
 rails db:prepare
+
+#######
+# RSpec
+#
+# RSpec Rails
+# https://github.com/rspec/rspec-rails
+
+bundle add rspec-rails --group "development, test"
+bundle add factory_bot_rails --group "development, test"
+bundle add faker
+
+#########
+# Install
+#
+rails g rspec:install
+
+rails generate rspec:model post
+rails generate rspec:controller post
+
+drop database react_on_rails_api_development;
+drop database react_on_rails_api_test;
+
+drop database react_on_rails_api_v3_development;
+drop database react_on_rails_api_v3_test;
+
+drop database react_on_rails_api_v1_development;
+drop database react_on_rails_api_v1_test;
+
+drop database react_on_rails_api_v4_development;
+drop database react_on_rails_api_v4_test;
+
+
+
+
+```
+
+
+#########
+# Example
+#
+```
+rails g scaffold User email:string user:string password:string is_admin:boolean
+rails db:migrate
+
+
+```
 
 #######################
 # generate 'controller'
@@ -901,6 +952,7 @@ vi config/application.rb
 ###############################
 #### Google Cloud - DEPLOY ####
 ###############################
+- ### see: gcloud-deploy-NOTES.md
 
 # ENV
 source ./config/.env-vars

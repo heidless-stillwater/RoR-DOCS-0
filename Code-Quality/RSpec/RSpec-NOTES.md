@@ -1,17 +1,22 @@
 
+# proven useful
+- #### [How to Test Rails Models with RSpec](https://semaphore.io/community/tutorials/how-to-test-rails-models-with-rspec)
+- ### [rspec-rails](https://github.com/rspec/rspec-rails/tree/main)
+  - ### [Using generators](https://github.com/rspec/rspec-rails/blob/main/features/Generators.md)
+- ### [RSpec Cheatsheet: rspec-rails-examples](https://github.com/rspec/rspec-rails-examples)
+- ### [A Guide to Testing Rails Applications](https://guides.rubyonrails.org/v2.3/testing.html)
+
+# ref
+- ### [home: RSpec Rails](https://rspec.info/features/6-0/rspec-rails/)
+- ### [github: rspec-rails](https://github.com/rspec/rspec-rails)
+- ### [API Docs: Module: RSpec](https://rubydoc.info/github/rspec/rspec-core/RSpec)
+- ### [Rails Testing Handbook](https://semaphore.io/ebooks/rails-testing-handbook)
+
 # docs
 - #### [gem: faker](https://github.com/faker-ruby/faker)
 - #### [Getting Started with Minitest](https://semaphore.io/community/tutorials/getting-started-with-minitest)
 - #### [shoulda-matchers](https://github.com/thoughtbot/shoulda-matchers)
 - #### [Setup RSpec on a fresh Rails 7 project](https://dev.to/adrianvalenz/setup-rspec-on-a-fresh-rails-7-project-5gp)
-- #### [How to Test Rails Models with RSpec](https://semaphore.io/community/tutorials/how-to-test-rails-models-with-rspec)
-
-### ref
-- ### [A Guide to Testing Rails Applications](https://guides.rubyonrails.org/v2.3/testing.html)
-- ### [home: RSpec Rails](https://rspec.info/features/6-0/rspec-rails/)
-- ### [github: rspec-rails](https://github.com/rspec/rspec-rails)
-- ### [API Docs: Module: RSpec](https://rubydoc.info/github/rspec/rspec-core/RSpec)
-- ### [Rails Testing Handbook](https://semaphore.io/ebooks/rails-testing-handbook)
 
 ### training
 - ### [Using Test-Driven Development to Understand the MVC in Ruby on Rails](https://www.microverse.org/blog/using-test-driven-development-to-understand-the-mvc-in-ruby-on-rails)

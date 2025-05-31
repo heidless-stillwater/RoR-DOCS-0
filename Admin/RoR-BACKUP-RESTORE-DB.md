@@ -79,7 +79,7 @@ source ../../config/.env-vars
 #
 timestamp=`date +%s`
 
-export BK_COMMENT='-LTS-ALPHA-1-0-'
+export BK_COMMENT='-RELEASE-2-0-'
 echo COMMENT: $BK_COMMENT
 
 MSG=INITIAL
@@ -115,6 +115,7 @@ gcloud sql export sql ${GCP_INSTANCE} gs://${GCP_BUCKET}/backups/${GCP_FILE}    
 --database=${GCP_DB_NAME}	 \
 --offload
 
+
 #################
 # DOWNLOAD BACKUPl
 # cd <BACKUP DIR>
@@ -125,13 +126,12 @@ echo GCP_FILE: $GCP_FILE
 gcloud storage cp gs://${GCP_BUCKET}/backups/${GCP_FILE} .
 
 
-
-
 ###############
 # UPLOAD BACKUP
 # cd <BACKUP DIR>
 #
-#echo GCP_FILE: rails-photo-app-v2-instance-0--BASELINE-1--1743601938.gz
+export GCP_FILE=rails-alpha-blog-v1-instance-0--BASELINE-DEPLOY-0--1743460047.gz
+echo GCP_FILE: ${GCP_FILE}
 #
 echo GCP_BUCKET: $GCP_BUCKET
 echo GCP_FILE: $GCP_FILE
@@ -233,12 +233,13 @@ source ../../config/.env-vars
 #export BK_DB_NAME=rails_alpha_blog_development
 #export BK_DB_NAME=photo_app_v1_development
 #export BK_DB_NAME=rails_alpha_blog_ActAsTenant_develpment
+#export BK_DB_NAME=saas_project_app_v1_development
 
-export BK_DB_NAME=saas_project_app_v1_development
+export BK_DB_NAME=react_on_rails_api_development
 
 echo BK_DB_NAME: ${BK_DB_NAME}
 
-export BK_COMMENT='-local-LTS-ALPHA-1-0-'
+export BK_COMMENT='-local-BLOGAPI-CONFIG-1-0-'
 echo BK_COMMENT: ${BK_COMMENT}
 
 export BK_TIMESTAMP=`date +%s`
