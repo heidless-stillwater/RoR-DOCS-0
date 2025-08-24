@@ -29,12 +29,10 @@ arjuna11
 cd Admin/encrypted
 
 
-export FILE_NAME=./RoR-INSTALL-DEPLOY.md
+export FILE_NAME=./RoR-INSTALL-DEPLOY
 echo FILE_NAME: ${FILE_NAME}
 gpg --output ${FILE_NAME}.gpg --encrypt --recipient rob.lockhart@yahoo.co.uk ${FILE_NAME}
-
-
-# rm ${FILE_NAME}
+rm ${FILE_NAME}
 
 
 #########
